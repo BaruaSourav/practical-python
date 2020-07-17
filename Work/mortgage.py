@@ -28,6 +28,8 @@ while principal > 0:
     print("Total Paid : " + str(total_paid))
     print("Principal : " + str(principal))
     print("--------------------------------")
+    formatString = f"Month : {month:>10d} Total Paid: {total_paid:10.2f} Principal: {principal}"
+    print(formatString)
     
 print('Total paid :' + str(round(total_paid, 2)))
 print('Months :' + str(month))
