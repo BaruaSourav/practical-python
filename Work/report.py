@@ -10,8 +10,11 @@ def read_portfolio(file):
         rows = csv.reader(f)
         header = next(rows)
         for item in rows:
-            holding = (item[0],int(item[1]),float(item[2]))
-            portfolio.append(holding)
+            rowDictionary = {}
+            rowDictionary['name'] = item[0]
+            rowDictionary['shares'] = int(item[1])
+            rowDictionary['price'] = float(item[2]) 
+            portfolio.append(rowDictionary)
     return portfolio
 
             
