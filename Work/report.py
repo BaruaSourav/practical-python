@@ -29,4 +29,20 @@ def read_prices(filename):
             print('Bad row')
     return prices
 
-            
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+
+totalCost = 0.0 
+for share in portfolio:
+    totalCost += share['shares']*share['price']
+
+sumOfPresentValue = 0.0 
+for share in portfolio:
+    sumOfPresentValue += share['shares']*prices[share['name']]
+
+print("Total buying cost ", totalCost)
+print("Current price: ", sumOfPresentValue)
+if (totalCost<sumOfPresentValue):
+    print("Profit/Gain: ", sumOfPresentValue-totalCost)
+else:
+    print("Loss : ",totalCost-sumOfPresentValue)
