@@ -17,4 +17,16 @@ def read_portfolio(file):
             portfolio.append(rowDictionary)
     return portfolio
 
+def read_prices(filename):
+    prices= {}
+    f = open(filename,'r')
+    rows= csv.reader(f)
+    for row in rows:
+        #print(row[0],row[1])
+        try:
+            prices[row[0]] = float(row[1])
+        except:
+            print('Bad row')
+    return prices
+
             
