@@ -2,6 +2,7 @@
 #
 # Exercise 2.4
 import sys
+from pprint import pprint 
 import csv
 
 def read_portfolio(file):
@@ -29,6 +30,14 @@ def read_prices(filename):
             print('Bad row')
     return prices
 
+def make_report(portfolio,prices):
+    report_list = []
+    for share in portfolio:
+        report_item = (share['name'],share['shares'],prices[share['name']],prices[share['name']]-share['price'])
+        report_list.append(report_item)
+    pprint(report_list)
+
+
 portfolio = read_portfolio('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
 
@@ -46,3 +55,5 @@ if (totalCost<sumOfPresentValue):
     print("Profit/Gain: ", sumOfPresentValue-totalCost)
 else:
     print("Loss : ",totalCost-sumOfPresentValue)
+
+make_report(portfolio, prices)
