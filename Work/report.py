@@ -35,7 +35,8 @@ def make_report(portfolio,prices):
     for share in portfolio:
         report_item = (share['name'],share['shares'],prices[share['name']],prices[share['name']]-share['price'])
         report_list.append(report_item)
-    pprint(report_list)
+    #pprint(report_list)
+    return report_list
 
 
 portfolio = read_portfolio('Data/portfolio.csv')
@@ -56,4 +57,7 @@ if (totalCost<sumOfPresentValue):
 else:
     print("Loss : ",totalCost-sumOfPresentValue)
 
-make_report(portfolio, prices)
+report = make_report(portfolio, prices)
+
+for name, shares, price, change in report:
+        print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
