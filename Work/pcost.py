@@ -8,21 +8,21 @@ def portfolio_cost(filename):
 
     with open(filename, 'rt') as f:
         headers = next(f)
-        for line in f:
+        for rowno, row in enumerate(f, start =1):
             try:
-                row = line.split(',')
-                cost = int(row[1])*float(row[2])
+                portfolioInstance = row.split(',')
+                cost = int(portfolioInstance[1])*float(portfolioInstance[2])
                 totalCost += cost
                
             except ValueError:
-                print('Value error occured')
+                print(f'Row {rowno}: Bad row: {row}')
         
     return totalCost
 
 if len(sys.argv) == 2:
     filename = sys.argv[1]
 else:
-    filename = 'Data/portfolio.csv'
+    filename = 'Data/missing.csv'
 
 cost = portfolio_cost(filename)
 print(f'Total Cost ${cost}')
