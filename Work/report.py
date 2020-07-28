@@ -41,13 +41,22 @@ def make_report(portfolio,prices):
     #pprint(report_list)
     return report_list
 
+def print_report(reportdata):
+    headers = ('Name','Shares','Price','Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-'*10 + ' ')*len(headers))
+    for row in reportdata:
+        print('%10s %10d %10.2f %10.2f' % row)
 
-portfolio = read_portfolio('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
+def portfolio_report(portfoliofile,pricefile):        
+    # Read data files 
+    portfolio = read_portfolio(portfoliofile)
+    prices = read_prices(pricefile)
+    report = make_report_data(portfolio,prices)
+    print_report(report)
 
-totalCost = 0.0 
-for share in portfolio:
-    totalCost += share['shares']*share['price']
+
+
 
 sumOfPresentValue = 0.0 
 for share in portfolio:
