@@ -4,7 +4,7 @@
 
 import csv
 
-def parse_csv(filename,select = None,types = None,has_headers = True,delimiter = ',' ):
+def parse_csv(filename,select = None,types = None,has_headers = True,delimiter = ',',silence_erros = False ):
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
 
@@ -20,13 +20,18 @@ def parse_csv(filename,select = None,types = None,has_headers = True,delimiter =
             indices = []
         
         records = []
-        for row in rows:
+        for rowno, row in enumerate(rows,1):
             if not row:
                 continue
             if indices:
                 row = [row[index] for index in indices]
             if types:
-                row = [func(val) for func, val in zip(types, row) ]
+                try:
+                    row = [func(val) for func, val in zip(types, row)]
+                except ValueError as e:
+                    if not silence_erros:
+                        print(f"Row {rowno}: error while reading the row {row} for {e}")
+
             #make dict or tuple
             if headers:
                 record = dict(zip(headers, row))
