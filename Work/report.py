@@ -4,33 +4,14 @@
 import sys
 from pprint import pprint 
 import csv
+import fileparse
 
 def read_portfolio(file):
-    portfolio=[]
-    with open(file) as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for item in rows:
-            record = dict(zip(headers,item))
-            pprint(record)
-            rowDictionary = {
-                 'name'   : record['name'],
-                 'shares' : int(record['shares']),
-                 'price'   : float(record['price'])
-            }
-            portfolio.append(rowDictionary)
+    portfolio = fileparse.parse_csv(filename, select=['name','shares','price'], types=[str,int,float])
     return portfolio
 
 def read_prices(filename):
-    prices= {}
-    f = open(filename,'r')
-    rows= csv.reader(f)
-    for row in rows:
-        #print(row[0],row[1])
-        try:
-            prices[row[0]] = float(row[1])
-        except:
-            print('Bad row')
+    prices= dict(fileparse.parse_csv(filename,types=[str,float], has_headers=False))
     return prices
 
 def make_report(portfolio,prices):
@@ -55,25 +36,6 @@ def portfolio_report(portfoliofile,pricefile):
     report = make_report_data(portfolio,prices)
     print_report(report)
 
+portfolio_report('Data/portfolio.csv',
+                 'Data/prices.csv')
 
-
-
-sumOfPresentValue = 0.0 
-for share in portfolio:
-    sumOfPresentValue += share['shares']*prices[share['name']]
-
-print("Total buying cost ", totalCost)
-print("Current price: ", sumOfPresentValue)
-if (totalCost<sumOfPresentValue):
-    print("Profit/Gain: ", sumOfPresentValue-totalCost)
-else:
-    print("Loss : ",totalCost-sumOfPresentValue)
-
-report = make_report(portfolio, prices)
-
-headers = ('Name', 'Shares', 'Price', 'Change')
-print('%10s %10s %10s %10s' % headers)
-print(('-' * 10 + ' ') * len(headers))
-for name, shares, price, change in report:
-        price_dollars = "${:.2f}".format(price)
-        print(f'{name:>10s} {shares:>10d} {price_dollars:>10s} {change:>10.2f}')

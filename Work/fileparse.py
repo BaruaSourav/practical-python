@@ -5,6 +5,9 @@
 import csv
 
 def parse_csv(filename,select = None,types = None,has_headers = True,delimiter = ',',silence_erros = False ):
+    '''
+    Generic function to parse csv files
+    '''
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
 
